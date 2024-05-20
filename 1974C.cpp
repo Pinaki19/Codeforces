@@ -65,8 +65,62 @@ struct phash{
 
 
 void helper(){
-  
-  
+  int n;
+  cin>>n;
+  vi arr(n);
+  scan(arr);
+    map<pair<pair<int,int>,int>,int> cnt,cnt2;
+    int v1,v2,v3,t1,t2,t3;
+  for(int i=0;i<n-2;i++){
+      t1 = arr[i];
+      t2 = arr[i + 1];
+      t3 = arr[i + 2];
+      pair<pair<int, int>, int> p2 = {{t1, t2}, t3};
+      cnt2[p2]++;
+      for (int j = i; j < i + 3; j++)
+      {
+          v1 = arr[i];
+          v2 = arr[i + 1];
+          v3 = arr[i + 2];
+          if (j == i)
+              v1 = -1;
+          else if (j == i + 1)
+              v2 = -1;
+          else
+              v3 = -1;
+          pair<pair<int, int>, int> p = {{v1, v2}, v3};
+          cnt[p]++;
+        }
+  }
+    ll ans=0;
+    for (int i = 0; i < n - 2; i++)
+    {
+        t1 = arr[i];
+        t2 = arr[i + 1];
+        t3 = arr[i + 2];
+        pair<pair<int, int>, int> p2 = {{t1, t2}, t3};
+        int v=cnt2[p2];
+        for (int j = i; j < i + 3; j++)
+        {
+            v1 = arr[i];
+            v2 = arr[i + 1];
+            v3 = arr[i + 2];
+            if (j == i)
+                v1 = -1;
+            else if (j == i + 1)
+                v2 = -1;
+            else
+                v3 = -1;
+            pair<pair<int, int>, int> p = {{v1, v2}, v3};
+            int z=cnt[p];
+            if(z){
+                //cnt[p]=0;
+                ans+=(z-1)-(v-1);
+            }
+        }
+    }
+
+    cout<<ans/2;
 }
 
 signed main()

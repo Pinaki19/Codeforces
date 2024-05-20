@@ -64,9 +64,81 @@ struct phash{
 };
 
 
+pair<int,int> change(char c){
+    switch(c){
+        case 'N': return {0,1};
+        case 'S': return {0,-1};
+        case 'E': return {1,0};
+        case 'W': return {-1,0};
+        default: return {0,0};
+    }
+    return {0,0};
+
+}
+
 void helper(){
-  
-  
+  int n;cin>>n;
+  ignore;
+  string s;
+  getline(cin,s);
+    int ncnt=0,scnt=0;
+    int ecnt=0,wcnt=0;
+    for(char c:s){
+        if(c=='E') ecnt++;
+        if(c=='W') wcnt++;
+        if(c=='N') ncnt++;
+        if(c=='S') scnt++;
+    }
+    //cout<<ecnt<<" "<<wcnt<<" "<<ncnt<<" "<<scnt<<endl;
+    map<char,int> R,H;
+    if (iseven(ncnt) && iseven(scnt))
+    {
+        R['N']=ncnt/2;H['N']=ncnt/2;
+        R['S'] = scnt / 2;
+        H['S'] = scnt / 2;
+    }else if(isodd(ncnt) && isodd(scnt)){
+        
+        R['N'] = 1+ncnt / 2;
+        H['N'] = ncnt / 2;
+        R['S'] = 1+scnt / 2;
+        H['S'] = scnt / 2;
+    }
+    if (iseven(ecnt) && iseven(wcnt))
+    {
+        R['E'] = ecnt / 2;
+        H['E'] = ecnt / 2;
+        R['W'] = wcnt / 2;
+        H['W'] = wcnt / 2;
+    }
+    else if (isodd(ecnt) && isodd(wcnt))
+    {
+        R['E'] = ecnt / 2;
+        H['E'] = 1+ecnt / 2;
+        R['W'] = wcnt / 2;
+        H['W'] = 1+wcnt / 2;
+    }
+    
+    int t1=R['N']+R['S']+R['E']+R['W'];
+    int t2 = H['N'] + H['S'] + H['E'] + H['W'];
+    //cout<<t1<<" "<<t2<<"OK"<<endl;
+    if(t1<=0 ||t2<=0){
+        NO;return;
+    }
+    string ans="";
+    for(char c:s){
+        //cout<<c<<" "<<H[c]<<" "<<R[c]<<endl;
+        if(R[c]){
+            ans +='R';
+            R[c]--;
+        }else if(H[c]){
+            ans += 'H';
+            H[c]--;
+        }else{
+            NO;
+            return;
+        }
+    }
+    cout<<ans;
 }
 
 signed main()

@@ -65,7 +65,18 @@ struct phash{
 
 
 void helper(){
-  
+  int x,y;
+  cin>>x>>y;
+  ll ans=fceil(y,2);
+  ll spaceleft=ans*15-y*4;
+  if(spaceleft>=x){
+    cout<<ans;
+    return;
+  }
+  x-=spaceleft;
+  ans+=fceil(x,15);
+  cout<<ans;
+
   
 }
 

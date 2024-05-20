@@ -58,14 +58,51 @@ vector<T> uniq(vector<T>& v){
     Uset<T> s(v.begin(),v.end());
     return vector<T>(s.begin(),s.end());
 }
-struct phash{
-    template<typename T1,typename T2>size_t operator() (const pair<T1,T2> &p) const{
-        size_t h1=hash<T1> {} (p.F);size_t h2=hash<T2> {} (p.S);return h1^h2<<3;}
-};
+#include <chrono>
+#include <functional>
+#include <utility>
 
+struct phash
+{
+    template <typename T1, typename T2>
+    size_t operator()(const std::pair<T1, T2> &p) const
+    {
+        // Get current time point for randomness
+        auto now = std::chrono::high_resolution_clock::now().time_since_epoch().count();
+
+        // Hash each element of the pair
+        size_t h1 = std::hash<T1>{}(p.first);
+        size_t h2 = std::hash<T2>{}(p.second);
+
+        // Combine hashes with time-based randomness
+        h1 ^= now + 0x9e3779b9 + (h1 << 6) + (h1 >> 2);
+        h2 ^= now + 0x9e3779b9 + (h2 << 6) + (h2 >> 2);
+
+        // Combine final hashes
+        return h1 ^ (h2 << 1);
+    }
+};
+int x;
+int getMax(int i,auto& ch,auto& dp,int cur){
+    if(cur<0) return -99999;
+    if(i>=ch.size()) return 0ll;
+   if(dp.find(cur)!=dp.end()) return dp[cur];
+    if(cur>=ch[i].F)
+        return dp[cur]=max(ch[i].S+getMax(i+1,ch,dp,cur-ch[i].F+x),getMax(i+1,ch,dp,cur+x));
+    return dp[cur] = getMax(i + 1, ch, dp, cur + x);
+}
 
 void helper(){
-  
+  int m;
+  cin>>m>>x;
+  vector<pair<int,int>> ch;
+  for(int i=0;i<m;i++){
+    int t1,t2;
+    cin>>t1>>t2;
+    ch.push_back({t1,t2});
+  }
+    unordered_map<ll,int> dp;
+    cout<<getMax(0,ch,dp,0);
   
 }
 

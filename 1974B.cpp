@@ -65,7 +65,33 @@ struct phash{
 
 
 void helper(){
+  int n; cin>>n;
+  ignore;
+  string s;
+  getline(cin,s);
+  int ex[26]={0};
+  string r="";
+  for(char c:s){
+    int p=c-'a';
+    if(ex[p]) continue;
+    r+=c;
+    ex[p]=1;
+  }
+
+  sort(r.begin(),r.end());
+  map<char,char> mp;
+  int k=r.size();
+  for(int i=0;i<=k/2;i++){
+    mp[r[i]]=r[k-1-i];
+    mp[r[k - 1 - i]]=r[i];
+  }
+
   
+  string ans="";
+  for(char c:s)
+    ans+=mp[c];
+
+    cout<<ans;
   
 }
 

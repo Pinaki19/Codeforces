@@ -41,6 +41,7 @@ using namespace std;
 #define ndigs(a,b) floor(log((long double)a)/log((long double)b)+1)
 #define elz(s) (s.erase(s.begin(),find_v(s,'1')))
 #define ignore cin.ignore()
+#define line(s) {ignore;getline(cin,s);}
 template<typename T1,typename T2>
 void pxsum(vector<T1>& v,vector<T2>& arr){v[0]=arr[0];for(int k=1;k<arr.size();k++){v[k]=v[k-1]+arr[k];}}
 inline string binary(auto a) {
@@ -83,8 +84,9 @@ public:
 struct chash *phash::hash = nullptr;
 
 void helper(){
- 
- 
+    
+
+    
 }
 
 signed main()

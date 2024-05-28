@@ -58,15 +58,33 @@ vector<T> uniq(vector<T>& v){
     Uset<T> s(v.begin(),v.end());
     return vector<T>(s.begin(),s.end());
 }
-struct phash{
-    template<typename T1,typename T2>size_t operator() (const pair<T1,T2> &p) const{
-        size_t h1=hash<T1> {} (p.F);size_t h2=hash<T2> {} (p.S);return h1^h2<<3;}
-};
 
+struct chash{
+    static const uint64_t splitmix64( uint64_t x){
+        // http://xorshift.di.unimi.it/splitmix64.c
+        x += 0x9e3779b97f4a7c15;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+        return x ^ (x >> 31);}
+    template <typename T>size_t operator()(const T x) const{
+        uint64_t t=hash<T> {} (x);
+        static const uint64_t FIXED_RANDOM = chrono::steady_clock::now().time_since_epoch().count();
+        return splitmix64(t + FIXED_RANDOM);}
+};
+struct phash{   // use only upto 1e5
+private:
+    static struct chash* hash;
+public:
+    phash(){hash=new struct chash();}
+    template <typename T1, typename T2>
+    size_t operator()(const pair<T1, T2> &p) const{
+        size_t h1=(*hash)(p.F);size_t h2=(*hash)(p.S);return h1^h2<<3;}
+};
+struct chash *phash::hash = nullptr;
 
 void helper(){
-  
-  
+ 
+ 
 }
 
 signed main()

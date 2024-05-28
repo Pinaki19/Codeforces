@@ -63,6 +63,62 @@ struct phash{
         size_t h1=hash<T1> {} (p.F);size_t h2=hash<T2> {} (p.S);return h1^h2<<3;}
 };
 
+#define ll long long
+class Solution
+{
+public:
+    int MOD = (int)1e9 + 7;
+    ll maxSum(auto &arr, auto &t)
+    {
+        int n = arr.size();
+        if (n == 0)
+            return 0;
+        if (n == 1)
+            return max(arr[0], 0L);
+
+        ll include = arr[0];
+        ll exclude = 0;
+        t.clear();
+        if (include > exclude)
+        {
+            t.insert(0);
+        }
+        for (int i = 1; i < n; i++)
+        {
+            ll prevInclude = include;
+            include = exclude + arr[i];
+            exclude = max(prevInclude, exclude);
+            if (include > exclude)
+            {
+                if (t.size() && t.find(i - 1) != t.end())
+                    t.erase(i - 1);
+                t.insert(i);
+            }
+        }
+        return max(include, exclude);
+    }
+
+    int maximumSumSubsequence(vector<int> &nums, vector<vector<int>> &queries)
+    {
+        int n = nums.size();
+        ll ans = 0;
+        unordered_set<int> part;
+        ll cur = maxSum(nums, part) % MOD;
+        for (int i : part)
+            cout << i << "  ";
+        cout << endl;
+        for (auto q : queries)
+        {
+            int i = q[0], x = q[1];
+            nums[i] = x;
+            if (part.find(i) != part.end())
+                cur = maxSum(nums, part);
+            ans += cur % MOD;
+            ans %= MOD;
+        }
+        return (int)ans % MOD;
+    }
+};
 
 void helper(){
   int n;
@@ -125,13 +181,8 @@ void helper(){
 
 signed main()
 {
-    ios_base::sync_with_stdio(0);
-    cin.tie(0);
-    int t;
-    cin >> t;
-    while (t--){
-        helper();
-        cout << endl;
-    }
-    return 0;
+    Solution s;
+    vector<long> nums={3,5,9};
+    vector<vector<long>> q = { { 1, -2} , {0, -3} } ;
+    s.maximumSumSubsequence(nums,q);
 }

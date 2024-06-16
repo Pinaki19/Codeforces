@@ -1,32 +1,27 @@
-#include <iostream>
-#include <stdio.h>
-#include <vector>
-#include <cmath>
-#include <algorithm>
-#include <queue>
-#include <numeric>
-#include <map>
-#include <set>
-#include <unordered_set>
-#include <unordered_map>
-#include <map>
-#include <cstdlib>
+#include <bits/stdc++.h>
 using namespace std;
-#define ll long long
-
-void helper(){
-    
+void helper(char * val){
+    cout<<1<<'\n';
+    int lim=80000;
+    cout<<lim<<endl;
+    for(int i=0;i<lim;i++){
+        cout<<val<<' ';
+    }
+    cout<<endl;
+    for (int i = 0; i < lim; i++)
+    {
+        cout << val << ' ';
+    }
+    cout << endl;
+    cout << lim << endl;
+    for (int i = 0; i < lim; i++)
+    {
+        cout << val << ' ';
+    }
+    cout << endl;
 }
 
-int main()
+int main(int argc,char** argv)
 {
-    int t;
-    cin >> t;
-    while (t)
-    {
-        helper();
-        cout << endl;
-        t--;
-    }
-    return 0;
+    helper(argv[1]);
 }

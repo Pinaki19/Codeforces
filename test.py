@@ -1,22 +1,22 @@
-def digit_sum(n):
-    return sum(int(digit) for digit in str(n))
 
+from random import choice
+words=[]
+s=""
+for p in range(10):
+    for i in range(90,101):
+        w=(chr)(ord('a')+p)*i
+        words.append('"'+w+'"')
 
-def sum_of_digit_sums(n):
-    # Calculate the sum of digit sums for numbers from 1 to 9
-    sum_1_to_9 = sum(range(1, 10))
-    # Calculate the number of full cycles of 10
-    full_cycles = n // 10
-    # Calculate the sum contributed by full cycles of 10
-    total = full_cycles * sum_1_to_9 * 10
-    # Calculate the remaining numbers after the last full cycle
-    remaining_numbers = n % 10
-    # Add the sum of digit sums for the remaining numbers
-    total += sum(range(1, remaining_numbers + 1))
-    return total
+prev=""
+for i in range(1000):
+    prev+=choice(['a','b','c','d','e','f','g','h','i','j'])*90
+    prev+=" "
 
-t=int(input())
-while t:
-    t-=1
-    n=int(input())
-    print(sum_of_digit_sums(n))
+prev.rstrip(" ")
+
+f=open("test.txt","w")
+f.write(','.join(words));
+f.write('\n\n\n')
+f.write('"'+prev+'"')
+f.close();
+    
